@@ -216,12 +216,9 @@ class NewsModule(DisplayModule):
         # Colors
         white = graphics.Color(255, 255, 255)
         
-        # Draw source logo at top left
+        # Draw source logo at top left using fast SetImage
         if self.current_source_logo:
-            for y in range(self.current_source_logo.height):
-                for x in range(self.current_source_logo.width):
-                    r, g, b = self.current_source_logo.getpixel((x, y))
-                    self.canvas.SetPixel(x + 1, y + 1, r, g, b)
+            self.canvas.SetImage(self.current_source_logo.convert('RGB'), 1, 1)
         else:
             # Fallback to text if logo not available
             fallback_color = graphics.Color(255, 255, 255)

@@ -390,13 +390,11 @@ class ESPNModule(DisplayModule):
                 start_x = 1  # Small margin from left edge
                 start_y = 2  # Small margin from top
 
-                for y in range(away_logo.height):
-                    for x in range(away_logo.width):
-                        if start_x + x < 19:  # Ensure we don't overlap with center area
-                            r, g, b = away_logo.getpixel((x, y))
-                            # Only draw non-black pixels to preserve transparency
-                            if r > 10 or g > 10 or b > 10:
-                                self.canvas.SetPixel(start_x + x, start_y + y, r, g, b)
+                # Crop logo to avoid center overlap and use fast SetImage
+                crop_width = min(away_logo.width, 19 - start_x)
+                if crop_width > 0:
+                    cropped_logo = away_logo.crop((0, 0, crop_width, away_logo.height))
+                    self.canvas.SetImage(cropped_logo.convert('RGB'), start_x, start_y)
 
         if "home_logo" in game_data:
             home_logo = self.fetch_and_resize_logo(
@@ -409,15 +407,12 @@ class ESPNModule(DisplayModule):
                 )  # Position from right edge with margin
                 start_y = 2  # Small margin from top
 
-                for y in range(home_logo.height):
-                    for x in range(home_logo.width):
-                        if (
-                            start_x + x >= 45 and start_x + x < 64
-                        ):  # Ensure we don't overlap with center and stay on screen
-                            r, g, b = home_logo.getpixel((x, y))
-                            # Only draw non-black pixels to preserve transparency
-                            if r > 10 or g > 10 or b > 10:
-                                self.canvas.SetPixel(start_x + x, start_y + y, r, g, b)
+                # Ensure logo fits within right section and use fast SetImage
+                if start_x >= 45:
+                    max_width = 64 - start_x
+                    if home_logo.width > max_width:
+                        home_logo = home_logo.crop((0, 0, max_width, home_logo.height))
+                    self.canvas.SetImage(home_logo.convert('RGB'), start_x, start_y)
 
         # League indicator at top center (above logos)
         league_text = game_data["league"]

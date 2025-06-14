@@ -36,17 +36,14 @@ class DisplayController:
             # Log module switch
             self.logger.info(f"Switching to {module_name}")
 
-            # Draw initial frame completely before displaying
+            # Draw initial frame and display immediately
             try:
                 module.update_and_draw()
-                # Give Pi Zero time to complete drawing operations
-                time.sleep(0.05)  # 50ms buffer for slow hardware
+                # Swap to display the frame (SetImage is much faster now)
+                self.canvas = self.matrix.SwapOnVSync(self.canvas)
             except Exception as e:
                 self.logger.error(f"Error in {module_name}.update_and_draw(): {e}")
                 continue
-
-            # Now swap to display the completed frame
-            self.canvas = self.matrix.SwapOnVSync(self.canvas)
 
             # Display for module-specific duration
             module_duration = module.get_display_duration()
@@ -58,8 +55,6 @@ class DisplayController:
                 while time.time() - start_time < module_duration:
                     try:
                         module.draw_frame()
-                        # Give time for drawing to complete on Pi Zero
-                        time.sleep(0.05)
                         self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     except Exception as e:
                         self.logger.error(f"Error in {module_name}.draw_frame(): {e}")
