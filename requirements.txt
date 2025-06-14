@@ -1,0 +1,10 @@
+# Core dependencies
+requests
+feedparser
+pillow
+RGBMatrixEmulator
+
+# Weather module dependencies
+requests-cache
+retry-requests
+openmeteo-requests

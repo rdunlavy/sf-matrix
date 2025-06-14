@@ -1,0 +1,74 @@
+{
+  "_comment": "Configuration Template for SF Matrix Display - Copy this file to config.json and customize with your personal settings",
+  
+  "location": {
+    "_comment": "Your location settings for weather and timezone",
+    "timezone": "America/Los_Angeles",
+    "weather_latitude": 37.7749,
+    "weather_longitude": -122.4194
+  },
+  
+  "sports": {
+    "_comment": "Sports preferences and leagues to track",
+    "favorite_teams": {
+      "NBA": ["YOUR_NBA_TEAM"],
+      "NFL": ["YOUR_NFL_TEAM"]
+    },
+    "leagues": ["NBA", "NFL"]
+  },
+  
+  "transit": {
+    "_comment": "Addresses you want transit information for",
+    "target_addresses": [
+      "YOUR_HOME_ADDRESS, San Francisco, CA",
+      "YOUR_WORK_ADDRESS, San Francisco, CA"
+    ]
+  },
+  
+  "bike_share": {
+    "_comment": "Bay Wheels bike share stations you want availability for",
+    "target_stations": [
+      "YOUR_BIKE_STATION_1",
+      "YOUR_BIKE_STATION_2"
+    ]
+  },
+  
+  "news": {
+    "_comment": "News sources to display. Add or remove sources as needed.",
+    "sources": {
+      "NYT": {
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+        "favicon_url": "https://www.nytimes.com/favicon.ico",
+        "name": "NY Times"
+      },
+      "SFG": {
+        "url": "https://www.sfgate.com/bayarea/feed/bay-area-news-429.php",
+        "favicon_url": "https://www.sfgate.com/favicon.ico",
+        "name": "SF Gate"
+      },
+      "BBC": {
+        "url": "http://feeds.bbci.co.uk/news/rss.xml",
+        "favicon_url": "https://www.bbc.com/favicon.ico",
+        "name": "BBC News"
+      }
+    }
+  },
+  
+  "display": {
+    "_comment": "Display and timing settings",
+    "refresh_rates": {
+      "_comment": "How often to fetch data (in seconds)",
+      "espn": 30,
+      "weather": 1800,
+      "news": 300,
+      "sfmta": 30,
+      "bay_wheels": 30
+    },
+    "timing": {
+      "_comment": "Display timing settings (in seconds)",
+      "display_time_per_module": 20,
+      "game_display_duration": 3,
+      "station_switch_interval": 5
+    }
+  }
+}

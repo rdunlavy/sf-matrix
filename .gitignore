@@ -1,0 +1,12 @@
+.venv
+bin
+.cache*
+include
+lib
+__pycache__
+matrix
+submodules
+.env
+matrix_display.log
+config.json
+pyvenv.cfg
