@@ -36,8 +36,8 @@ class DisplayController:
             # Log module switch
             self.logger.info(f"Switching to {module_name}")
 
-            # Clear off-screen canvas and draw new module content
-            self.canvas.Clear()
+            # Fill canvas with black background instead of clearing (prevents flash)
+            self.canvas.Fill(0, 0, 0)  # Black background, not transparent
             try:
                 module.update_and_draw()
                 # Give Pi Zero time to complete drawing operations
@@ -52,12 +52,12 @@ class DisplayController:
             module_duration = module.get_display_duration()
             start_time = time.time()
             
-            # Only do continuous updates if module actually needs them
-            if hasattr(module, 'draw_frame'):
-                # This module needs continuous updates (like scrolling)
+            # Only do continuous updates for modules that actually need animation/cycling
+            if module.needs_continuous_updates():
+                # This module needs continuous updates (ESPN games, News scrolling, BayWheels stations)
                 while time.time() - start_time < module_duration:
-                    # Clear canvas for continuous updates (like scrolling)
-                    self.canvas.Clear()
+                    # Fill canvas with black background for continuous updates
+                    self.canvas.Fill(0, 0, 0)
                     try:
                         module.draw_frame()
                         # Give Pi Zero time to complete drawing
@@ -68,7 +68,7 @@ class DisplayController:
                         break
                     time.sleep(0.1)
             else:
-                # Static content - just sleep, no need for continuous updates
+                # Static content (Weather, SFMTA) - just sleep, no re-rendering needed
                 time.sleep(module_duration)
 
             # Move to next module

@@ -229,6 +229,10 @@ class BayWheelsModule(DisplayModule):
             str(info["next_gen_ebikes"]),
         )
 
+    def needs_continuous_updates(self) -> bool:
+        """BayWheels needs continuous updates to cycle through stations"""
+        return True
+
     def update_and_draw(self):
         """Update data and draw to the canvas"""
         self.update_data()

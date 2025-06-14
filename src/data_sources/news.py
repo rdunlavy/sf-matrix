@@ -241,6 +241,10 @@ class NewsModule(DisplayModule):
         # Longer duration to allow multiple headlines to scroll completely
         return 30
     
+    def needs_continuous_updates(self) -> bool:
+        """News needs continuous updates for scrolling text"""
+        return True
+    
     def update_and_draw(self):
         """Update data and draw to the canvas"""
         self.update_data()

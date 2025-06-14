@@ -38,6 +38,11 @@ class DisplayModule(ABC):
         # Default duration if not overridden by subclass
         return 20
     
+    def needs_continuous_updates(self) -> bool:
+        """Return True if this module needs continuous re-rendering (animation/cycling)"""
+        # Default: static content, no continuous updates needed
+        return False
+    
     def get_frame(self):
         """Update data, draw frame, and return canvas"""
         self.update_data()

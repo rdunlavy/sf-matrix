@@ -503,6 +503,10 @@ class ESPNModule(DisplayModule):
             return 25  # Longer duration for few games
         else:
             return 35  # Long duration for many games to cycle through
+    
+    def needs_continuous_updates(self) -> bool:
+        """ESPN needs continuous updates to cycle through games"""
+        return True
 
     def update_and_draw(self):
         """Update data and draw to the canvas"""
