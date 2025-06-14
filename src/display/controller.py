@@ -15,8 +15,9 @@ class DisplayController:
         self.logger = get_logger('controller')
 
     def add_module(self, module: DisplayModule) -> None:
-        """Add a display module and provide it with matrix/canvas references"""
-        module.set_matrix(self.matrix, self.canvas)
+        """Add a display module and provide it with matrix reference only"""
+        # Don't pass canvas reference - modules will get current canvas during render
+        module.set_matrix(self.matrix, None)
         self.modules.append(module)
         module_name = module.__class__.__name__
         self.logger.info(f"Added module: {module_name}")
@@ -39,6 +40,8 @@ class DisplayController:
             # Fill canvas with black background instead of clearing (prevents flash)
             self.canvas.Fill(0, 0, 0)  # Black background, not transparent
             try:
+                # Give module the current canvas for this render
+                module.canvas = self.canvas
                 module.update_and_draw()
                 # Give Pi Zero time to complete drawing operations
                 time.sleep(0.1)
@@ -59,6 +62,8 @@ class DisplayController:
                     # Fill canvas with black background for continuous updates
                     self.canvas.Fill(0, 0, 0)
                     try:
+                        # Give module the current canvas for this render
+                        module.canvas = self.canvas
                         module.draw_frame()
                         # Give Pi Zero time to complete drawing
                         time.sleep(0.05)
