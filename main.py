@@ -37,4 +37,4 @@ class MatrixApp(SampleBase):
 if __name__ == "__main__":
     app = MatrixApp()
     if not app.process():
-        app.print_help()
+        app.parser.print_help()
