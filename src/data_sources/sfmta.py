@@ -6,7 +6,7 @@ from typing import List, Dict, Optional, Tuple
 from location_utils import get_bounding_box
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
-from RGBMatrixEmulator import graphics
+from src.utils.matrix_import import graphics
 
 from src.utils.config import TARGET_TRANSIT_ADDRESSES, REFRESH_RATES
 

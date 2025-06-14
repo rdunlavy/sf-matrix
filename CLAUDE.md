@@ -115,5 +115,4 @@ main.py → DisplayController → [ESPN, BayWheels, ...] → LED Matrix
 
 - `main.py`: Entry point and module registration
 - `samplebase.py`: Hardware abstraction layer
-- `location_utils.py`: Geospatial utilities for transit/bike data
 - `requirements.txt`: Python dependencies

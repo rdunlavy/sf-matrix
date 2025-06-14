@@ -6,7 +6,7 @@ from retry_requests import retry
 from typing import Optional, Dict, Any
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
-from RGBMatrixEmulator import graphics
+from src.utils.matrix_import import graphics
 
 from src.utils.config import WEATHER_LATITUDE, WEATHER_LONGITUDE, REFRESH_RATES
 

@@ -1,4 +1,8 @@
 from samplebase import SampleBase
+
+# Import matrix_import first to set up the correct modules
+import src.utils.matrix_import
+
 from src.display.controller import DisplayController
 from src.data_sources.espn import ESPNModule
 from src.data_sources.bay_wheels import BayWheelsModule

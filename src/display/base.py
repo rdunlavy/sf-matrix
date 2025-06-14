@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import os
-from RGBMatrixEmulator import graphics, RGBMatrix
+from src.utils.matrix_import import RGBMatrix, graphics
 
 
 class DisplayModule(ABC):

@@ -1,9 +1,8 @@
 import time
-from RGBMatrixEmulator import RGBMatrix
 from .base import DisplayModule
 from src.utils.logger import get_logger
-
 from src.utils.config import DISPLAY_TIME_PER_MODULE
+from src.utils.matrix_import import RGBMatrix
 
 
 class DisplayController:

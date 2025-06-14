@@ -54,6 +54,7 @@ cp config.example.json config.json
 
 ### 4. Install Matrix Library (Raspberry Pi Only)
 ```bash
+chmod +x ./install_matrix.sh
 ./install_matrix.sh
 ```
 

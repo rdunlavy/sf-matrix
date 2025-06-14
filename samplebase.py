@@ -4,8 +4,6 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/.."))
-# from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 
 class SampleBase(object):
@@ -155,6 +153,19 @@ class SampleBase(object):
 
     def process(self):
         self.args = self.parser.parse_args()
+
+        # Dynamically import the correct matrix module based on emulation mode
+        if hasattr(self.args, 'led_emulator') and self.args.led_emulator:
+            from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+            print("Using RGB Matrix Emulator")
+        else:
+            try:
+                from rgbmatrix import RGBMatrix, RGBMatrixOptions
+                print("Using real RGB Matrix hardware")
+            except ImportError:
+                print("ERROR: rgbmatrix module not found. Install the matrix library or use --led-emulator")
+                print("Run: ./install_matrix.sh")
+                return False
 
         options = RGBMatrixOptions()
 

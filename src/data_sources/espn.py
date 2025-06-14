@@ -8,7 +8,7 @@ from PIL import Image
 from io import BytesIO
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
-from RGBMatrixEmulator import graphics
+from src.utils.matrix_import import graphics
 
 from src.utils.config import (
     FAVORITE_TEAMS,
