@@ -133,13 +133,22 @@ class BayWheelsModule(DisplayModule):
         }
 
     def _draw_icon(self, icon, x, y, color):
-        """Draw a 9x9 icon at the specified position"""
+        """Draw a 9x9 icon at the specified position using fast SetImage"""
+        # Create PIL Image from icon data
+        from PIL import Image
+        
+        # Convert icon boolean array to RGB image
+        img_data = []
         for row in range(9):
             for col in range(9):
                 if icon[row][col]:
-                    self.canvas.SetPixel(
-                        x + col, y + row, color.red, color.green, color.blue
-                    )
+                    img_data.extend([color.red, color.green, color.blue])
+                else:
+                    img_data.extend([0, 0, 0])  # Transparent (black)
+        
+        # Create 9x9 RGB image and use fast SetImage
+        icon_img = Image.frombytes('RGB', (9, 9), bytes(img_data))
+        self.canvas.SetImage(icon_img, x, y)
 
     def update_data(self):
         """Fetch and update station data"""
@@ -156,7 +165,7 @@ class BayWheelsModule(DisplayModule):
         if not self.current_data:  # Skip if no data available
             return
 
-        self.canvas.Clear()
+        # Don't clear canvas - let new content overwrite old for better performance
         text_color = graphics.Color(255, 255, 255)
         wheel_color = graphics.Color(200, 200, 200)  # Gray for regular bikes
         old_ebike_color = graphics.Color(0, 255, 0)  # Green for old ebikes

@@ -361,7 +361,7 @@ class ESPNModule(DisplayModule):
                 )
             self.last_display_time = current_time
 
-        self.canvas.Clear()
+        # Don't clear canvas - let new content overwrite old for better performance
 
         if not self.all_games_data:
             # Display a "No Games" message

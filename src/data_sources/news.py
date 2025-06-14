@@ -188,7 +188,7 @@ class NewsModule(DisplayModule):
         if not self.canvas:
             return
 
-        self.canvas.Clear()
+        # Don't clear canvas - let new content overwrite old for better performance
 
         if not self.current_headlines or not self.current_headline_text:
             # Display "Loading News" message

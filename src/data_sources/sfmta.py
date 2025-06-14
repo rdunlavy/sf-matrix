@@ -196,7 +196,7 @@ class SFMTAModule(DisplayModule):
 
             self.last_display_time = current_time
 
-        self.canvas.Clear()
+        # Don't clear canvas - let new content overwrite old for better performance
 
         if not self.current_data:
             # Display a "No Transit Data" message

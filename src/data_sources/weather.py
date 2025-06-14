@@ -170,11 +170,20 @@ class WeatherModule(DisplayModule):
         else:  # cloudy
             color = graphics.Color(180, 180, 180)  # Gray
         
+        # Convert weather icon to PIL Image and use fast SetImage
+        from PIL import Image
+        
+        img_data = []
         for y in range(8):
             for x in range(8):
                 if icon[y][x] == 1:
-                    self.canvas.SetPixel(start_x + x, start_y + y, 
-                                       color.red, color.green, color.blue)
+                    img_data.extend([color.red, color.green, color.blue])
+                else:
+                    img_data.extend([0, 0, 0])  # Transparent (black)
+        
+        # Create 8x8 RGB image and use fast SetImage
+        icon_img = Image.frombytes('RGB', (8, 8), bytes(img_data))
+        self.canvas.SetImage(icon_img, start_x, start_y)
 
     def update_data(self):
         """Fetch and update weather data"""
@@ -193,7 +202,7 @@ class WeatherModule(DisplayModule):
         if not self.canvas:
             return
 
-        self.canvas.Clear()
+        # Don't clear canvas - let new content overwrite old for better performance
         
         # Colors
         white = graphics.Color(255, 255, 255)
