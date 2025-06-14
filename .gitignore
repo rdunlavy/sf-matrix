@@ -1,12 +1,20 @@
-.venv
-bin
-.cache*
-include
-lib
-__pycache__
-matrix
-submodules
-.env
-matrix_display.log
-config.json
+# Virtual environment
+.venv/
+bin/
+include/
+lib/
 pyvenv.cfg
+
+# Cache and temporary files
+.cache*
+__pycache__/
+*.sqlite
+*.log
+
+# Configuration and secrets
+.env
+config.json
+
+# Project specific
+matrix/
+submodules/
