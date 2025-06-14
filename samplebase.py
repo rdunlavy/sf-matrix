@@ -155,17 +155,38 @@ class SampleBase(object):
         self.args = self.parser.parse_args()
 
         # Dynamically import the correct matrix module based on emulation mode
-        if hasattr(self.args, 'led_emulator') and self.args.led_emulator:
-            from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-            print("Using RGB Matrix Emulator")
+        if hasattr(self.args, "led_emulator") and self.args.led_emulator:
+            try:
+                from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+                print("Using RGB Matrix Emulator")
+            except ImportError:
+                print("ERROR: RGBMatrixEmulator not found")
+                return False
         else:
             try:
+                # First try system-installed rgbmatrix
                 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-                print("Using real RGB Matrix hardware")
+                print("Using real RGB Matrix hardware (system)")
             except ImportError:
-                print("ERROR: rgbmatrix module not found. Install the matrix library or use --led-emulator")
-                print("Run: ./install_matrix.sh")
-                return False
+                try:
+                    # Try local build in submodules
+                    matrix_path = os.path.join(os.path.dirname(__file__), 'submodules/matrix/bindings/python')
+                    if matrix_path not in sys.path:
+                        sys.path.insert(0, matrix_path)
+                    from rgbmatrix import RGBMatrix, RGBMatrixOptions
+                    print("Using real RGB Matrix hardware (local build)")
+                except ImportError as e:
+                    print(f"ERROR: rgbmatrix module not found: {e}")
+                    
+                    # Check if matrix source exists but isn't built
+                    matrix_source_path = os.path.join(os.path.dirname(__file__), 'submodules/matrix/bindings/python/rgbmatrix')
+                    if os.path.exists(matrix_source_path) and os.path.exists(os.path.join(matrix_source_path, 'core.pyx')):
+                        print("Matrix source found but not built. Run: ./install_matrix.sh")
+                    else:
+                        print("Matrix source not found. Run: ./install_matrix.sh")
+                    
+                    print("Install the matrix library or use --led-emulator")
+                    return False
 
         options = RGBMatrixOptions()
 
