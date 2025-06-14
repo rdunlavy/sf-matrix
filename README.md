@@ -53,6 +53,12 @@ cp config.example.json config.json
 ```
 
 ### 4. Install Matrix Library (Raspberry Pi Only)
+First install required dependencies:
+```bash
+sudo apt-get update && sudo apt-get install python3-dev cython3 -y
+```
+
+Then run the installation script:
 ```bash
 chmod +x ./install_matrix.sh
 ./install_matrix.sh
@@ -134,7 +140,7 @@ Connect your 64x32 LED panel to the Raspberry Pi GPIO pins. See [wiring guide](s
 ### 4. Install Dependencies
 ```bash
 sudo apt update
-sudo apt install python3-pip python3-venv git
+sudo apt install python3-pip python3-venv git python3-dev cython3
 ```
 
 ### 5. Clone and Setup Project
