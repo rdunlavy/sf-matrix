@@ -36,28 +36,33 @@ class DisplayController:
             # Log module switch
             self.logger.info(f"Switching to {module_name}")
 
-            # Clear canvas before each module draws
-            self.canvas.Clear()
+            # Draw initial frame (no clear - let new content overwrite old)
             try:
                 module.update_and_draw()
+                # Swap to display the initial frame
+                self.canvas = self.matrix.SwapOnVSync(self.canvas)
             except Exception as e:
                 self.logger.error(f"Error in {module_name}.update_and_draw(): {e}")
                 continue
 
-            # Display for module-specific duration with continuous updates for scrolling modules
+            # Display for module-specific duration
             module_duration = module.get_display_duration()
             start_time = time.time()
-            while time.time() - start_time < module_duration:
-                # Check if this module needs continuous updates (like news scrolling)
-                if hasattr(module, 'draw_frame'):
-                    self.canvas.Clear()
+            
+            # Only do continuous updates if module actually needs them
+            if hasattr(module, 'draw_frame'):
+                # This module needs continuous updates (like scrolling)
+                while time.time() - start_time < module_duration:
                     try:
                         module.draw_frame()
+                        self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     except Exception as e:
                         self.logger.error(f"Error in {module_name}.draw_frame(): {e}")
                         break
-                self.canvas = self.matrix.SwapOnVSync(self.canvas)
-                time.sleep(0.1)
+                    time.sleep(0.1)
+            else:
+                # Static content - just sleep, no need for continuous updates
+                time.sleep(module_duration)
 
             # Move to next module
             self.current_module = (self.current_module + 1) % len(self.modules)
