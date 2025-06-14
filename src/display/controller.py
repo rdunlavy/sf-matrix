@@ -36,10 +36,13 @@ class DisplayController:
             # Log module switch
             self.logger.info(f"Switching to {module_name}")
 
-            # Draw initial frame and display immediately
+            # Clear off-screen canvas and draw new module content
+            self.canvas.Clear()
             try:
                 module.update_and_draw()
-                # Swap to display the frame (SetImage is much faster now)
+                # Give Pi Zero time to complete drawing operations
+                time.sleep(0.1)
+                # Swap to display the completed frame
                 self.canvas = self.matrix.SwapOnVSync(self.canvas)
             except Exception as e:
                 self.logger.error(f"Error in {module_name}.update_and_draw(): {e}")
@@ -53,8 +56,12 @@ class DisplayController:
             if hasattr(module, 'draw_frame'):
                 # This module needs continuous updates (like scrolling)
                 while time.time() - start_time < module_duration:
+                    # Clear canvas for continuous updates (like scrolling)
+                    self.canvas.Clear()
                     try:
                         module.draw_frame()
+                        # Give Pi Zero time to complete drawing
+                        time.sleep(0.05)
                         self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     except Exception as e:
                         self.logger.error(f"Error in {module_name}.draw_frame(): {e}")
