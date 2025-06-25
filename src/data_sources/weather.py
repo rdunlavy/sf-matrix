@@ -7,6 +7,7 @@ from typing import Optional, Dict, Any
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
 from src.utils.matrix_import import graphics
+from src.utils.fonts import load_font
 
 from src.utils.config import WEATHER_LATITUDE, WEATHER_LONGITUDE, REFRESH_RATES
 
@@ -33,11 +34,7 @@ class WeatherModule(DisplayModule):
         self.logger = get_logger("weather")
 
         # Load fonts
-        self.font = graphics.Font()
-        font_path = os.path.join(
-            os.path.dirname(__file__), "../../submodules/matrix/fonts/4x6.bdf"
-        )
-        self.font.LoadFont(font_path)
+        self.font = load_font("4x6")
 
         # Weather icons (8x8 bitmaps)
         self.weather_icons = {

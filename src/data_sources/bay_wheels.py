@@ -4,6 +4,7 @@ import time
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
 from src.utils.matrix_import import graphics
+from src.utils.fonts import load_font
 
 from src.utils.config import TARGET_BIKE_STATIONS, STATION_SWITCH_INTERVAL
 
@@ -17,11 +18,7 @@ class BayWheelsModule(DisplayModule):
         self.station_switch_interval = STATION_SWITCH_INTERVAL
         self.last_switch_time = time.time()
         self.logger = get_logger("bay_wheels")
-        self.font = graphics.Font()
-        font_path = os.path.join(
-            os.path.dirname(__file__), "../../submodules/matrix/fonts/4x6.bdf"
-        )
-        self.font.LoadFont(font_path)
+        self.font = load_font("4x6")
 
         # Define icons as 9x9 bitmap patterns
         # Wheel icon (regular bike) - circular rim with spokes

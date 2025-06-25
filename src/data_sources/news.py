@@ -9,6 +9,7 @@ from io import BytesIO
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
 from src.utils.matrix_import import graphics
+from src.utils.fonts import load_font
 
 from src.utils.config import NEWS_SOURCES, REFRESH_RATES
 
@@ -43,11 +44,7 @@ class NewsModule(DisplayModule):
         self.logger = get_logger('news')
         
         # Load fonts
-        self.font = graphics.Font()
-        font_path = os.path.join(
-            os.path.dirname(__file__), "../../submodules/matrix/fonts/4x6.bdf"
-        )
-        self.font.LoadFont(font_path)
+        self.font = load_font("4x6")
 
     def fetch_headlines_from_source(self, source_key: str, source_info: Dict) -> List[Dict]:
         """Fetch headlines from a single RSS source"""

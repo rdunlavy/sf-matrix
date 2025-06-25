@@ -1,17 +1,14 @@
 from abc import ABC, abstractmethod
 import os
 from src.utils.matrix_import import RGBMatrix, graphics
+from src.utils.fonts import load_font
 
 
 class DisplayModule(ABC):
     def __init__(self):
         self.matrix = None
         self.canvas = None
-        self.font = graphics.Font()
-        font_path = os.path.join(
-            os.path.dirname(__file__), "../../submodules/matrix/fonts/7x13.bdf"
-        )
-        self.font.LoadFont(font_path)
+        self.font = load_font("7x13")
 
     def set_matrix(self, matrix: RGBMatrix, canvas):
         """Set the matrix and canvas references"""

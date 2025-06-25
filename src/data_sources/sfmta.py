@@ -7,6 +7,7 @@ from location_utils import get_bounding_box
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
 from src.utils.matrix_import import graphics
+from src.utils.fonts import load_font
 
 from src.utils.config import TARGET_TRANSIT_ADDRESSES, REFRESH_RATES
 
@@ -30,11 +31,7 @@ class SFMTAModule(DisplayModule):
         self.logger = get_logger('sfmta')
 
         # Load fonts
-        self.font = graphics.Font()
-        font_path = os.path.join(
-            os.path.dirname(__file__), "../../submodules/matrix/fonts/4x6.bdf"
-        )
-        self.font.LoadFont(font_path)
+        self.font = load_font("4x6")
 
     def get_coordinates(self, address: str) -> Optional[Tuple[float, float]]:
         """Get latitude and longitude coordinates for an address."""

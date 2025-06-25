@@ -9,6 +9,7 @@ from io import BytesIO
 from src.display import DisplayModule
 from src.utils.logger import get_logger, log_network_error
 from src.utils.matrix_import import graphics
+from src.utils.fonts import load_font
 
 from src.utils.config import (
     FAVORITE_TEAMS,
@@ -53,11 +54,7 @@ class ESPNModule(DisplayModule):
         self.logger = get_logger("espn")
 
         # Load fonts
-        self.font = graphics.Font()
-        font_path = os.path.join(
-            os.path.dirname(__file__), "../../submodules/matrix/fonts/4x6.bdf"
-        )
-        self.font.LoadFont(font_path)
+        self.font = load_font("4x6")
 
     def fetch_scores(self, league: str) -> Optional[dict]:
         """Fetches scores for a given league."""
