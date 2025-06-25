@@ -69,6 +69,13 @@
       "display_time_per_module": 20,
       "game_display_duration": 3,
       "station_switch_interval": 5
+    },
+    "brightness": {
+      "_comment": "Automatic brightness control settings",
+      "auto_brightness": true,
+      "min_brightness": 20,
+      "max_brightness": 100,
+      "update_interval": 300
     }
   }
 }

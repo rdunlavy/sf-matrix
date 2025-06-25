@@ -60,6 +60,12 @@ def load_config() -> Dict[str, Any]:
                 "display_time_per_module": 20,
                 "game_display_duration": 3,
                 "station_switch_interval": 5
+            },
+            "brightness": {
+                "auto_brightness": True,
+                "min_brightness": 20,
+                "max_brightness": 100,
+                "update_interval": 300
             }
         }
     }
@@ -96,3 +102,11 @@ REFRESH_RATES = config["display"]["refresh_rates"]
 DISPLAY_TIME_PER_MODULE = config["display"]["timing"]["display_time_per_module"]
 GAME_DISPLAY_DURATION = config["display"]["timing"]["game_display_duration"]
 STATION_SWITCH_INTERVAL = config["display"]["timing"]["station_switch_interval"]
+
+# Brightness settings
+BRIGHTNESS_CONFIG = config["display"].get("brightness", {
+    "auto_brightness": True,
+    "min_brightness": 20,
+    "max_brightness": 100,
+    "update_interval": 300
+})
