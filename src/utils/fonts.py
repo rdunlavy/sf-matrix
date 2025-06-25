@@ -28,11 +28,16 @@ def load_font(font_name: str) -> graphics.Font:
     # Try multiple possible font paths in order of preference
     possible_paths = [
         # Standard calculated path
-        os.path.join(calculated_root, f"submodules/matrix/fonts/{font_name}.bdf"),
+        os.path.join(calculated_root, "submodules", "matrix", "fonts", f"{font_name}.bdf"),
         # Current working directory
-        os.path.join(current_dir, f"submodules/matrix/fonts/{font_name}.bdf"),
-        # Absolute hardcoded path (as last resort)
-        f"/home/ryandunlavy/sf-matrix/submodules/matrix/fonts/{font_name}.bdf"
+        os.path.join(current_dir, "submodules", "matrix", "fonts", f"{font_name}.bdf"),
+        # Try different base paths
+        os.path.join("/home/ryandunlavy/sf-matrix", "submodules", "matrix", "fonts", f"{font_name}.bdf"),
+        # Try the absolute paths you confirmed exist
+        f"/home/ryandunlavy/sf-matrix/submodules/matrix/fonts/{font_name}.bdf",
+        # Try relative to where we might actually be
+        os.path.abspath(f"submodules/matrix/fonts/{font_name}.bdf"),
+        os.path.abspath(f"./submodules/matrix/fonts/{font_name}.bdf")
     ]
     
     font_path = None
@@ -63,8 +68,6 @@ def load_font(font_name: str) -> graphics.Font:
         # Try fallback to a smaller font that might work better
         if font_name != "4x6":
             print(f"Trying fallback font: 4x6")
-            fallback_path = os.path.join(project_root, "submodules/matrix/fonts/4x6.bdf")
-            font.LoadFont(fallback_path)
-            return font
+            return load_font("4x6")  # Recursive call with fallback font
         else:
             raise e
