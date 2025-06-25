@@ -1,6 +1,5 @@
 # Virtual environment
 .venv/
-venv/
 bin/
 include/
 lib/
@@ -19,3 +18,6 @@ config.json
 # Project specific
 matrix/
 submodules/
+
+*.egg-info/
+.claude/settings.local.json
