@@ -20,11 +20,10 @@ def load_font(font_name: str) -> graphics.Font:
     """
     font = graphics.Font()
     
-    # Get absolute path to the font file
-    font_path = os.path.abspath(os.path.join(
-        os.path.dirname(__file__), 
-        f"../../submodules/matrix/fonts/{font_name}.bdf"
-    ))
+    # Get absolute path to the project root, then to fonts
+    # This works from any module location in the project
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    font_path = os.path.join(project_root, f"submodules/matrix/fonts/{font_name}.bdf")
     
     font.LoadFont(font_path)
     return font
