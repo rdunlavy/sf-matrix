@@ -11,17 +11,31 @@ A San Francisco-focused LED matrix display system that cycles through live data 
 - **News Headlines** - Scrolling RSS feeds
 - **Auto-Cycling** - Intelligent display timing based on content
 
+## Prerequisites
+
+This project uses [uv](https://github.com/astral-sh/uv) for fast Python dependency management. Install it first:
+
+```bash
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Or with pip
+pip install uv
+```
+
 ## Quick Start
 
 ### Development (Any Computer)
 ```bash
 git clone https://github.com/yourusername/sf-matrix.git
 cd sf-matrix
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+uv sync
 cp config.example.json config.json
 # Edit config.json with your settings
-python main.py --led-emulator
+uv run python main.py --led-emulator
 ```
 
 ### Raspberry Pi Setup
@@ -29,7 +43,8 @@ python main.py --led-emulator
 **1. Install OS and Dependencies**
 ```bash
 # Install Raspberry Pi OS Lite, then:
-sudo apt update && sudo apt install python3-pip python3-venv git python3-dev cython3 -y
+sudo apt update && sudo apt install python3-pip git python3-dev cython3 -y
+curl -LsSf https://astral.sh/uv/install.sh | sh
 sudo raspi-config  # Enable SPI under Interface Options
 ```
 
@@ -37,8 +52,7 @@ sudo raspi-config  # Enable SPI under Interface Options
 ```bash
 git clone https://github.com/yourusername/sf-matrix.git
 cd sf-matrix
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+uv sync
 ./install_matrix.sh
 cp config.example.json config.json
 # Edit config.json with your settings
@@ -46,7 +60,7 @@ cp config.example.json config.json
 
 **3. Test Display**
 ```bash
-python main.py  # Test the display works
+uv run python main.py  # Test the display works
 ```
 
 **4. Auto-Start on Boot**
@@ -100,13 +114,13 @@ Edit `config.json` to customize your display:
 
 ```bash
 # Development mode (with emulator)
-python main.py --led-emulator
+uv run python main.py --led-emulator
 
 # Production mode (Raspberry Pi)
-python main.py
+uv run python main.py
 
 # Options
-python main.py --led-brightness=75 --led-cols=64 --led-rows=32
+uv run python main.py --led-brightness=75 --led-cols=64 --led-rows=32
 ```
 
 ## Adding New Data Sources
@@ -134,7 +148,7 @@ controller.add_module(MyModule())
 
 **Matrix not lighting up**: Check wiring, power supply (5V 4A+), and SPI enabled
 
-**Permission errors**: Run with `sudo python main.py`
+**Permission errors**: Run with `sudo uv run python main.py`
 
 **API errors**: Check internet connection and `tail -f matrix_display.log`
 

@@ -1,0 +1,18 @@
+[project]
+name = "sf-matrix"
+version = "1.0.0"
+description = "San Francisco-focused LED matrix display system"
+requires-python = ">=3.8.1"
+dependencies = [
+    "requests",
+    "feedparser", 
+    "pillow",
+    "RGBMatrixEmulator",
+    "requests-cache",
+    "retry-requests",
+    "openmeteo-requests",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

@@ -10,12 +10,17 @@ This is a San Francisco-focused LED matrix display system that cycles through di
 
 ### Initial Configuration
 
-1. **Copy configuration template:**
+1. **Install dependencies:**
+   ```bash
+   uv sync
+   ```
+
+2. **Copy configuration template:**
    ```bash
    cp config.example.json config.json
    ```
 
-2. **Edit configuration with your personal settings:**
+3. **Edit configuration with your personal settings:**
    ```bash
    # Edit config.json with your:
    # - Location coordinates (for weather)
@@ -33,10 +38,10 @@ This is a San Francisco-focused LED matrix display system that cycles through di
 
 ```bash
 # Development (with emulator)
-python main.py --led-emulator
+uv run python main.py --led-emulator
 
 # Production (on Raspberry Pi with actual matrix)
-python main.py
+uv run python main.py
 
 # Install matrix library for Raspberry Pi
 ./install_matrix.sh
@@ -55,7 +60,7 @@ sudo systemctl start matrix.service
 
 ### Committing
 
-Do not mention claude in commit messages
+YOU MUST NOT mention claude in commit messages
 
 ### Core Pattern: Plugin-Based Display Controller
 
@@ -115,4 +120,4 @@ main.py → DisplayController → [ESPN, BayWheels, ...] → LED Matrix
 
 - `main.py`: Entry point and module registration
 - `samplebase.py`: Hardware abstraction layer
-- `requirements.txt`: Python dependencies
+- `pyproject.toml`: Python dependencies and project configuration
