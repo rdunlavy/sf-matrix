@@ -1,10 +1,9 @@
 # Bugs
 
-No known bugs at this time.
-
 ## Recently Fixed
 
 Latest fixes (Fixed in current session):
+- ✅ UV index stuck at 8 all day/night - was using daily maximum instead of current hourly UV value
 - ✅ Odds text overlaps with team names. break it up into 2 lines, so if it is OKC -6.5 have OKC on one line and -6.5 on the next. Put this in the place the scores would normally be
 - ✅ News headline text seems to be cut off after a certain number of characters
 - ✅ ESPN betting line position is wrong as it is on top of the logo to the right, making it difficult to read. It is also cut off to the right.

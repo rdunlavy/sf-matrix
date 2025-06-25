@@ -2,6 +2,7 @@ import feedparser
 import time
 import os
 import requests
+import random
 from typing import List, Dict, Optional
 from PIL import Image
 from io import BytesIO
@@ -18,7 +19,7 @@ class NewsModule(DisplayModule):
         
         # Configuration from config.py
         self.REFRESH_RATE_SECONDS = REFRESH_RATES["news"]
-        self.SCROLL_SPEED = 4  # Pixels to move each frame
+        self.SCROLL_SPEED = 6  # Pixels to move each frame (faster scrolling)
         self.news_sources = NEWS_SOURCES
         
         # State management
@@ -35,7 +36,7 @@ class NewsModule(DisplayModule):
         self.current_source_logo = None  # PIL Image object
         self.frame_count = 0  # Track frames for continuous scrolling
         self.headline_start_time = 0  # When current headline started
-        self.pause_duration = 2.0  # Seconds to pause before scrolling
+        self.pause_duration = 1.5  # Seconds to pause before scrolling (shorter pause)
         
         # Logo cache
         self.logo_cache = {}  # {source_key: PIL.Image}
@@ -55,7 +56,7 @@ class NewsModule(DisplayModule):
             feed = feedparser.parse(source_info["url"])
             
             headlines = []
-            for entry in feed.entries[:10]:  # Limit to 10 headlines per source
+            for entry in feed.entries[:3]:  # Limit to 3 headlines per source for better cycling
                 # Clean up title and limit length
                 title = entry.title.strip()
                 if title:
@@ -86,9 +87,11 @@ class NewsModule(DisplayModule):
                 all_headlines.extend(headlines)
             
             if all_headlines:
+                # Shuffle headlines to mix sources better
+                random.shuffle(all_headlines)
                 self.current_headlines = all_headlines
                 self.headlines_loaded = True
-                self.logger.info(f"Total headlines collected: {len(self.current_headlines)}")
+                self.logger.info(f"Total headlines collected: {len(self.current_headlines)} (shuffled)")
                 
                 # Reset to first headline and restart scrolling
                 self.current_headline_index = 0

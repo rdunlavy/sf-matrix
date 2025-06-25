@@ -90,7 +90,7 @@ class WeatherModule(DisplayModule):
             params = {
                 "latitude": self.SF_LATITUDE,
                 "longitude": self.SF_LONGITUDE,
-                "hourly": ["temperature_2m", "precipitation_probability", "rain"],
+                "hourly": ["temperature_2m", "precipitation_probability", "rain", "uv_index"],
                 "daily": ["uv_index_max", "sunrise", "sunset"],
                 "timezone": "America/Los_Angeles",
                 "forecast_days": 1,
@@ -109,15 +109,16 @@ class WeatherModule(DisplayModule):
                 current_hour_index
             ]
             current_rain = hourly.Variables(2).ValuesAsNumpy()[current_hour_index]
+            current_uv = hourly.Variables(3).ValuesAsNumpy()[current_hour_index]
 
             # Get next hour temperature
             next_temp_c = None
             if len(hourly.Variables(0).ValuesAsNumpy()) > 1:
                 next_temp_c = hourly.Variables(0).ValuesAsNumpy()[1]
 
-            # Get daily data (UV index, sunrise, sunset)
+            # Get daily data (UV max, sunrise, sunset) - keeping for reference but using hourly UV
             daily = response.Daily()
-            uv_index = daily.Variables(0).ValuesAsNumpy()[0]
+            uv_index_max = daily.Variables(0).ValuesAsNumpy()[0]
             
             # Sunrise and sunset times (timestamps)
             try:
@@ -147,7 +148,8 @@ class WeatherModule(DisplayModule):
                 "current_temp_f": current_temp_f,
                 "precipitation_prob": int(current_precip_prob),
                 "rain_mm": float(current_rain),
-                "uv_index": int(uv_index),
+                "uv_index": int(current_uv) if current_uv >= 0 else 0,  # Use current hour UV, not daily max
+                "uv_index_max": int(uv_index_max),  # Keep daily max for reference
                 "next_temp_f": next_temp_f,
                 "sunrise_timestamp": float(sunrise_timestamp) if sunrise_timestamp else None,
                 "sunset_timestamp": float(sunset_timestamp) if sunset_timestamp else None,
@@ -155,7 +157,7 @@ class WeatherModule(DisplayModule):
             }
 
             self.logger.info(
-                f"Updated SF weather: {current_temp_f}°F, {int(current_precip_prob)}% rain, UV {int(uv_index)}"
+                f"Updated SF weather: {current_temp_f}°F, {int(current_precip_prob)}% rain, UV {int(current_uv)} (max: {int(uv_index_max)})"
             )
             return weather_data
 

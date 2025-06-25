@@ -6,6 +6,7 @@ Currently no pending tasks!
 ## Recently Completed
 
 Latest fixes (Fixed in current session):
+- ✅ News module source variety - fixed issue where only NYTimes headlines were showing, now cycles through all configured sources (BBC, SF Gate, NY Times)
 - ✅ Dynamic brightness control based on time of day - automatically adjusts LED matrix brightness using sunrise/sunset data from weather API
 - ✅ For ESPN module, skip games more than a week away
 - ✅ For the news ticker, the ticker starts with a blank screen and then starts scrolling the headline in from the right. Instead, when a new headline is shown it should start all the way to the left, and then after a couple seconds start scrolling.
